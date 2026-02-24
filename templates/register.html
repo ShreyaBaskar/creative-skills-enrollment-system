@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Enroll — SkillEnroll</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+</head>
+<body>
+<div class="auth-wrapper">
+  <div class="auth-card wide">
+
+    <div class="logo">
+      <div class="logo-mark">S</div>
+      <div class="logo-name">SkillEnroll</div>
+    </div>
+
+    <h1>Create your profile</h1>
+    <p class="subtitle">Fill in your details and rate your creative skills</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for cat, msg in messages %}
+        <div class="flash {{ cat }}">{{ msg }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    <form method="POST" action="/register">
+
+      <!-- Personal Info -->
+      <div class="section-title">Personal Information</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Full Name <span>*</span></label>
+          <input type="text" name="full_name" placeholder="Jane Doe"
+                 value="{{ form.get('full_name','') }}" required autocomplete="name"/>
+        </div>
+        <div class="form-group">
+          <label>Email Address <span>*</span></label>
+          <input type="email" name="email" placeholder="you@example.com"
+                 value="{{ form.get('email','') }}" required autocomplete="email"/>
+        </div>
+        <div class="form-group">
+          <label>Password <span>*</span></label>
+          <input type="password" name="password" placeholder="Min 8 chars, A-Z, 0-9" required/>
+        </div>
+        <div class="form-group">
+          <label>Confirm Password <span>*</span></label>
+          <input type="password" name="confirm_password" placeholder="Repeat password" required/>
+        </div>
+      </div>
+
+      <!-- Academic Info -->
+      <div class="section-title">Academic Details</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>College / Institution <span>*</span></label>
+          <input type="text" name="college" placeholder="e.g. MIT, IIT Delhi"
+                 value="{{ form.get('college','') }}" required/>
+        </div>
+        <div class="form-group">
+          <label>Department <span>*</span></label>
+          <input type="text" name="department" placeholder="e.g. Computer Science"
+                 value="{{ form.get('department','') }}" required/>
+        </div>
+        <div class="form-group">
+          <label>Year of Study <span>*</span></label>
+          <select name="year" required>
+            <option value="" disabled {% if not form.get('year') %}selected{% endif %}>Select year</option>
+            <option value="1st Year" {% if form.get('year')=='1st Year' %}selected{% endif %}>1st Year</option>
+            <option value="2nd Year" {% if form.get('year')=='2nd Year' %}selected{% endif %}>2nd Year</option>
+            <option value="3rd Year" {% if form.get('year')=='3rd Year' %}selected{% endif %}>3rd Year</option>
+            <option value="4th Year" {% if form.get('year')=='4th Year' %}selected{% endif %}>4th Year</option>
+            <option value="Postgraduate" {% if form.get('year')=='Postgraduate' %}selected{% endif %}>Postgraduate</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Short Bio</label>
+          <textarea name="bio" placeholder="Tell us a bit about yourself...">{{ form.get('bio','') }}</textarea>
+        </div>
+      </div>
+
+      <!-- Creative Skills -->
+      <div class="section-title">Creative Skills — Rate Yourself (★ to ★★★★★)</div>
+      <div class="skills-grid">
+        {% for skill in skills %}
+        <div class="skill-item">
+          <span class="skill-name">{{ skill }}</span>
+          <div class="star-group">
+            {% for i in [5,4,3,2,1] %}
+            <input type="radio" id="skill_{{ skill }}_{{ i }}" name="skill_{{ skill }}" value="{{ i }}"/>
+            <label for="skill_{{ skill }}_{{ i }}" title="{{ i }} star{{ 's' if i > 1 }}">★</label>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <button class="btn btn-primary" type="submit" style="margin-top:32px;">
+        🎓 Complete Enrollment →
+      </button>
+    </form>
+
+    <div class="link-row" style="margin-top:20px;">
+      Already enrolled? <a href="/login">Sign in</a>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

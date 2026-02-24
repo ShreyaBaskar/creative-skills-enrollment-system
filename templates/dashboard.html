@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Dashboard — SkillEnroll</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+</head>
+<body>
+<div class="dash-wrapper">
+
+  <!-- Header -->
+  <div class="dash-header">
+    <div class="dash-logo">
+      <div class="logo-mark">S</div>
+      <div class="logo-name">SkillEnroll</div>
+    </div>
+    <form method="POST" action="/logout">
+      <button class="btn btn-danger" style="width:auto; padding:10px 22px; margin:0;">Sign Out</button>
+    </form>
+  </div>
+
+  <!-- Profile Card -->
+  <div class="profile-card">
+
+    <div class="profile-top">
+      <div class="avatar">{{ user.full_name[0].upper() }}</div>
+      <div>
+        <div class="profile-name">{{ user.full_name }}</div>
+        <div class="profile-email">{{ user.email }}</div>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <div class="label">🏛 College</div>
+        <div class="value">{{ user.college }}</div>
+      </div>
+      <div class="info-box">
+        <div class="label">📚 Department</div>
+        <div class="value">{{ user.department }}</div>
+      </div>
+      <div class="info-box">
+        <div class="label">🎓 Year</div>
+        <div class="value">{{ user.year }}</div>
+      </div>
+    </div>
+
+    {% if user.bio %}
+    <div class="bio-box">
+      <div class="label">About Me</div>
+      <div>{{ user.bio }}</div>
+    </div>
+    {% endif %}
+
+    <!-- Skills -->
+    <div class="skills-section">
+      <h3>Creative Skills</h3>
+      <div class="skills-display">
+        {% for skill in user.skills %}
+        <div class="skill-badge">
+          <span class="sname">{{ skill.name }}</span>
+          <span class="stars">
+            {% for i in range(skill.rating) %}★{% endfor %}
+            {% for i in range(5 - skill.rating) %}<span class="off">★</span>{% endfor %}
+          </span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="joined">
+      Member since {{ user.created_at.strftime('%B %d, %Y') }}
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>
