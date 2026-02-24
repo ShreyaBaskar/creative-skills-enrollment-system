@@ -240,3 +240,18 @@ textarea { resize:vertical; min-height:80px; }
 .skill-badge .stars .off { color:var(--star-off); }
 
 .joined { font-size:12px; color:var(--muted); margin-top:24px; }
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #4e73df, #1cc88a);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 350px;
+    margin: 80px auto;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
